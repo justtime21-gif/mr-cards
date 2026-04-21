@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MR 거래처 공략 카드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d2b4e;
+    --navy-mid: #1a3f6f;
+    --blue: #1e6fc8;
+    --blue-light: #3b8de8;
+    --accent: #f0a500;
+    --accent2: #e84848;
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --text-sub: #5a6a80;
+    --border: #dde4ef;
+    --green: #1aaa72;
+    --purple: #7b5ea7;
+    --tag-ab: #e8f0fb;
+    --tag-ab-text: #1e6fc8;
+    --tag-pain: #fef3e2;
+    --tag-pain-text: #c47a00;
+    --tag-gi: #e9faf2;
+    --tag-gi-text: #0e8a58;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 20px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(13,43,78,0.25);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .header-logo {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .header-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .header-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .header-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px 12px 0 0;
+    padding: 4px 4px 0;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.55);
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: -0.3px;
+    background: transparent;
+    border: none;
+    user-select: none;
+  }
+  .tab.active {
+    background: var(--bg);
+    color: var(--navy);
+  }
+  .tab-icon { display: block; font-size: 16px; margin-bottom: 2px; }
+
+  /* CONTENT */
+  .content { padding: 16px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* INTRO BANNER */
+  .intro-banner {
+    background: linear-gradient(120deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .intro-icon { font-size: 28px; }
+  .intro-text { font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+  .intro-text strong { color: #fff; }
+
+  /* SCENARIO CARD */
+  .scenario-card {
+    background: var(--card);
+    border-radius: 16px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(13,43,78,0.07);
+    border: 1px solid var(--border);
+  }
+  .card-header {
+    padding: 14px 16px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 900;
+    flex-shrink: 0;
+  }
+  .card-title-wrap { flex: 1; }
+  .card-from {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    opacity: 0.7;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+  .card-chevron {
+    font-size: 16px;
+    color: var(--text-sub);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .card-chevron.open { transform: rotate(180deg); }
+
+  /* CARD BODY */
+  .card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .card-body.open { max-height: 1000px; }
+  .card-inner { padding: 14px 16px 16px; }
+
+  /* POINT ITEMS */
+  .point-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .point-item:last-child { margin-bottom: 0; }
+  .point-bullet {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 900;
+    margin-top: 1px;
+  }
+  .point-text { font-size: 13px; line-height: 1.65; color: var(--text); flex: 1; }
+  .point-text strong { font-weight: 700; }
+  .point-text em { font-style: normal; color: var(--accent2); font-weight: 700; }
+
+  /* TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .compare-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 11px;
+  }
+  .compare-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    color: var(--text);
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: var(--bg); }
+  .compare-table .highlight { font-weight: 800; color: var(--blue); }
+  .compare-table .row-head { text-align: left; color: var(--text-sub); font-size: 11px; }
+
+  /* CONCLUSION BOX */
+  .conclusion-box {
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 12px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .conclusion-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* WARN BOX */
+  .warn-box {
+    background: #fff8e1;
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #7a5000;
+    display: flex;
+    gap: 8px;
+    line-height: 1.6;
+  }
+
+  /* SUB-SECTION LABEL */
+  .sub-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 14px 0 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 12px 0;
+  }
+
+  /* COLOR THEMES */
+  .ab { --c: var(--blue); --c-bg: var(--tag-ab); --c-text: var(--tag-ab-text); }
+  .pain { --c: var(--accent); --c-bg: var(--tag-pain); --c-text: var(--tag-pain-text); }
+  .gi { --c: var(--green); --c-bg: var(--tag-gi); --c-text: var(--tag-gi-text); }
+
+  .scenario-card .card-num { background: var(--c-bg); color: var(--c-text); }
+  .scenario-card .card-from { color: var(--c-text); }
+  .scenario-card .point-bullet { background: var(--c-bg); color: var(--c-text); }
+  .scenario-card .conclusion-box { background: var(--c-bg); color: var(--c-text); }
+  .scenario-card .sub-label { background: var(--c-bg); color: var(--c-text); }
+
+  /* BOTTOM SPACE */
+  .bottom-space { height: 40px; }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 11px;
+    padding: 8px;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="header-logo">OSSTEM IMPLANT</span>
+    <span class="header-badge">MR 토킹포인트</span>
+  </div>
+  <div class="header-title">경구제 전환 공략 카드</div>
+  <div class="header-sub">CHX 단일처방 거래처 → 자사 경구제 전환</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('ab', this)">
+      <span class="tab-icon">💊</span>항생제
+    </button>
+    <button class="tab" onclick="switchTab('pain', this)">
+      <span class="tab-icon">🔥</span>진통소염제
+    </button>
+    <button class="tab" onclick="switchTab('gi', this)">
+      <span class="tab-icon">🌿</span>소화기제
+    </button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ========== 항생제 ========== -->
+  <div class="section active" id="sec-ab">
+    <div class="intro-banner">
+      <div class="intro-icon">💊</div>
+      <div class="intro-text">
+        <strong>항생제 전환 전략</strong><br>
+        타사 처방 패턴별 자사 세파클리·아목시클라·아목시스 전환 논리
+      </div>
+    </div>
+
+    <!-- 1. 아목시실린 -->
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">아목시실린 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">세파클리캡슐은 아목시실린 대비 <strong>조직 침투력↑</strong>, <strong>그람양성·음성 커버 스펙트럼↑</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">복기 오래감·통증 지속·재내원 등 <strong>환자 불편감 최소화</strong> → 치과 신뢰도 상승</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">재내원이 줄면 <strong>스케줄 운영이 훨씬 편함</strong>을 원장님께 직접 강조</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>전환 추천: <strong>세파클리캡슐</strong> — 스펙트럼·침투력·편의성 3박자</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 타사 항생제 (성분유사) -->
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">성분 유사 항생제 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">성분이 유사하므로 <em>효과 차이로 승부하지 않음</em></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text"><strong>오스템치과 브랜드</strong> + 치과 전문 처방의약품담당자의 <strong>신뢰</strong> 어필</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">부작용 대응·담당자 즉각 대응 <strong>커뮤니케이션 차별화</strong>가 핵심</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div><strong>브랜드 신뢰 + 빠른 CS 대응</strong>으로 관계 차별화 전략</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 타사 세파항생제 -->
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">세파항생제 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">아목시클라는 치과 감염균 중 <strong>혐기성균 커버에 특화</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">치과 감염 상당수 = <strong>혐기성균 + β-lactamase 생성균</strong> → 페니실린계 단독으로는 한계</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">세파 대비 <strong>흡수도 우수</strong> → 아목시클라가 치과 감염에 더 적합</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>전환 추천: <strong>아목시클라</strong> — 혐기성균 커버 + 흡수도 논리</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 로도질 -->
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">로도질 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">로도질: <strong>공급 불안정</strong> / <em>삭제 코드</em> / <strong>EDI 코드 정리 이슈</strong> → 유지 자체가 어려운 상황</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">"대체가 아니라 <strong>필수 전환 상황</strong>"으로 프레이밍 — 선택이 아님을 강조</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">전환 조합: <strong>아목시스캡슐</strong>(혐기성균 커버) + <strong>후라시닐</strong>(호기성균 커버)</div>
+          </div>
+          <div class="warn-box">
+            <span>⚠️</span>
+            <span><strong>주의:</strong> 후라시닐은 아목시스캡슐과 동시 투여 시 <strong>비급여 분류처방 필수</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 기타 항생제 -->
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">퀴놀론계 / 록시스로마이신 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="sub-label">퀴놀론계 (Cipro·Levo)</div>
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">그람음성균에는 강하나 <strong>혐기성균 효과 제한적</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">치과 감염(혐기성+그람양성) 커버에 <strong>단독 사용 부적합</strong> — 처방 논리 자체가 맞지 않음</div>
+          </div>
+          <hr class="divider">
+          <div class="sub-label">록시스로마이신</div>
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">항균 스펙트럼 좁음 → 구강 내 <strong>혐기성균+연쇄상구균</strong> 커버에 아목시실린이 훨씬 광범위·강력</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">중등도 이상 감염 시 <em>치료 실패 위험</em>을 명시하여 전환 설득</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>"처방 논리 자체의 부적합"을 데이터로 제시 → <strong>아목시클라 or 세파클리</strong>로 전환</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 진통소염제 ========== -->
+  <div class="section" id="sec-pain">
+    <div class="intro-banner">
+      <div class="intro-icon">🔥</div>
+      <div class="intro-text">
+        <strong>진통소염제 전환 전략</strong><br>
+        타사 처방 패턴별 자사 록소리펜·나프록소·아세클로페낙 전환 논리
+      </div>
+    </div>
+
+    <!-- 1. 타이레놀 -->
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">타이레놀 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">치과 통증의 본질 = <strong>염증성 통증</strong> (치수염·치근단염·발치 후·임플란트 수술 후)</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">조직 손상 → 프로스타글란딘↑ → <strong>염증+통증 동시 유발</strong> → 염증 억제가 근본 치료</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">타이레놀 = 통증만 억제, <em>염증 자체는 못 잡음</em></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">④</div>
+            <div class="point-text">NSAIDs = COX 억제 → 프로스타글란딘↓ → <strong>통증·염증·부종 동시 해결</strong></div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>전환 추천: <strong>록소리펜 / 나프록소 / 아세클로페낙</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 아세트산 계열 -->
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">아세트산 계열 처방처 (아스피린)</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">아스피린 = <strong>비가역적</strong> 혈소판 응집 억제 → 복용 시 혈소판 기능 <strong>7~10일 저하</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">발치·임플란트·치수술 전 복용 시 <em>수술 후 출혈 위험 증가</em></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">수술 직전 진통제로 <strong>부적합, 분류 틀림</strong> 명확히 강조</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>전환 추천: <strong>록소리펜 / 나프록소 / 아세클로페낙</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 프로피온산 계열 - 록소→나프록소 -->
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">록소프로펜 처방처 → 나프록소 전환</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr>
+              <th class="row-head">비교항목</th>
+              <th>록소프로펜</th>
+              <th>나프록소 ✅</th>
+            </tr>
+            <tr>
+              <td class="row-head">복용 횟수</td>
+              <td>1일 3회</td>
+              <td class="highlight">1일 2회</td>
+            </tr>
+            <tr>
+              <td class="row-head">작용 지속</td>
+              <td>6~8시간</td>
+              <td class="highlight">10~12시간</td>
+            </tr>
+            <tr>
+              <td class="row-head">야간 통증 조절</td>
+              <td>보통</td>
+              <td class="highlight">유리 ↑</td>
+            </tr>
+            <tr>
+              <td class="row-head">항염 지속력</td>
+              <td>빠르나 단기</td>
+              <td class="highlight">오래 지속</td>
+            </tr>
+          </table>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>발치·임플란트 등 <strong>염증 반응이 오래가는 케이스</strong>, 고혈압·심혈관 병력 환자 → 나프록소가 이론적으로 더 안전</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 나프록소 → 록소리펜 전환 -->
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">나프록소 처방처 → 록소리펜 전환</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">치과 통증 = 대개 <strong>급성·단기</strong> → 빠른 작용·조절 가능한 약이 우선</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">나프록소: 위장 자극(쓰림·위염·위궤양·출혈) <em>위험 비교적 높음</em></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">록소프로펜 = <strong>프로드럭(prodrug)</strong> → 체내 활성형 전환 → <strong>COX 억제 시 위장 자극 최소화</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">④</div>
+            <div class="point-text">위에서 활성형으로 바로 작용 안 함 → <strong>위장 부담 적음</strong>이 핵심</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>급성 단기 통증 + 위장 부담 걱정되는 케이스 → <strong>록소리펜</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 이부프로펜 -->
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">이부프로펜 처방처 → 록소리펜 전환</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr>
+              <th class="row-head">비교항목</th>
+              <th>이부프로펜</th>
+              <th>록소리펜 ✅</th>
+            </tr>
+            <tr>
+              <td class="row-head">급성 치통 체감</td>
+              <td>약간 약함</td>
+              <td class="highlight">강한 편</td>
+            </tr>
+            <tr>
+              <td class="row-head">부종·염증 억제</td>
+              <td>보통</td>
+              <td class="highlight">임상 우위</td>
+            </tr>
+            <tr>
+              <td class="row-head">발치·농양 케이스</td>
+              <td>차선</td>
+              <td class="highlight">선호 경향</td>
+            </tr>
+            <tr>
+              <td class="row-head">위장 부담</td>
+              <td>보통</td>
+              <td class="highlight">프로드럭, 적음</td>
+            </tr>
+          </table>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div><strong>빠른 발현 + 위장 부담 적음 + 치과 영역 부종·염증 억제 우수</strong> — 록소리펜 3대 강조점</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 소화기제 ========== -->
+  <div class="section" id="sec-gi">
+    <div class="intro-banner">
+      <div class="intro-icon">🌿</div>
+      <div class="intro-text">
+        <strong>소화기제 전환 전략</strong><br>
+        타사 처방 패턴별 자사 모사프리·에스오메프라졸·알마펜 전환 논리
+      </div>
+    </div>
+
+    <!-- 1. 레바미피드 -->
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">레바미피드 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">레바미피드 = <strong>위 점막 보호·방어 강화</strong> 작용 (점막 보호제) → 위산 직접 억제 ✗</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">산에 의한 직접 억제·쓰림 제거 효과 부족 → 산 관련 통증에 <em>역부족</em></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">임상적으로 <strong>PPI와 병용</strong>하는 경우가 많음 → 단독으로는 불충분</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>결론: <strong>에스오메프라졸(PPI)</strong>이 단독으로 더 적절 — 처방 목적에 맞는 약으로 단순화</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 알마펜 -->
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">알마펜 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr>
+              <th class="row-head">비교항목</th>
+              <th>알마게이트</th>
+              <th>에스오메프라졸 ✅</th>
+            </tr>
+            <tr>
+              <td class="row-head">작용 원리</td>
+              <td>위산 <strong>중화</strong></td>
+              <td class="highlight">위산 생성 억제</td>
+            </tr>
+            <tr>
+              <td class="row-head">효과 지속</td>
+              <td>빠르나 단기</td>
+              <td class="highlight">시간 이상 지속</td>
+            </tr>
+            <tr>
+              <td class="row-head">산분비 조절</td>
+              <td>장기 조절 불가</td>
+              <td class="highlight">장기적 조절 가능</td>
+            </tr>
+            <tr>
+              <td class="row-head">복용 편의</td>
+              <td>1일 3~4회, 큰 정제</td>
+              <td class="highlight">1일 1회, 캡슐</td>
+            </tr>
+          </table>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>발치·턱관절 통증·구강궤양 환자 — <strong>큰 정제 삼키기 부담</strong> + <strong>1일 1회 편의성</strong>으로 전환 설득</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 모사프리 -->
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">모사프리 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">모사프리 = <strong>위장관 운동 촉진제</strong> (위 배출·복부 팽만감 개선) — 위 점막 보호 목적 ✗</div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">치과 NSAIDs 처방 시 위 점막 보호 목적 → 모사프리는 <em>직접적이지 않음</em></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">위염·위궤양 <strong>예방 효과 부족</strong>, NSAIDs 유발 위장병 예방 적응증 없음</div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div><strong>"쓰임이 다른 약"</strong> 명확히 → <strong>에스오메프라졸</strong>이 NSAIDs 위장 보호에 직접적·효과적</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. PPI -->
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">타사 PPI 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item">
+            <div class="point-bullet">①</div>
+            <div class="point-text">오스템 에스오메프라졸 = <strong>시장 내 저렴한 허가받은 제품</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">②</div>
+            <div class="point-text">타사 에스오메프라졸 20mg: <em>600~700원대</em> vs 오스템: <strong>300원 후반대</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">③</div>
+            <div class="point-text">같은 성분 → <strong>생동성 99%, 효능·효과 본질적으로 동일</strong></div>
+          </div>
+          <div class="point-item">
+            <div class="point-bullet">④</div>
+            <div class="point-text">환자 본인부담금 감소 → <strong>치과 처방부담의 차별화 포인트</strong></div>
+          </div>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>같은 약, 낮은 가격 → <strong>환자 만족도 + 처방 경쟁력</strong> 동시 향상</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 기타 위장관제 (라베프라졸) -->
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">라베프라졸 등 기타 위장관제 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr>
+              <th class="row-head">비교항목</th>
+              <th>라베프라졸</th>
+              <th>에스오메프라졸 ✅</th>
+            </tr>
+            <tr>
+              <td class="row-head">흡수·대사</td>
+              <td>개인차 크게 나타남</td>
+              <td class="highlight">S-이성체, 안정적</td>
+            </tr>
+            <tr>
+              <td class="row-head">효과 일관성</td>
+              <td>사람에 따라 차이</td>
+              <td class="highlight">일관성 높음</td>
+            </tr>
+            <tr>
+              <td class="row-head">심한 위산 역류</td>
+              <td>차선</td>
+              <td class="highlight">임상적 우위</td>
+            </tr>
+            <tr>
+              <td class="row-head">근거 기반</td>
+              <td>보통</td>
+              <td class="highlight">매우 풍부</td>
+            </tr>
+          </table>
+          <div class="conclusion-box">
+            <div class="icon">🎯</div>
+            <div>장기 치료·복합질환 케이스 → <strong>근거 기반 선택 폭 넓은 에스오메프라졸</strong> 우위</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-space"></div>
+</div>
+
+<script>
+  function switchTab(id, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('sec-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleCard(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.card-chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
