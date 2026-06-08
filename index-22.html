@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MR 거래처 공략 카드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d2b4e;
+    --navy-mid: #1a3f6f;
+    --blue: #1e6fc8;
+    --accent: #f0a500;
+    --accent2: #e84848;
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --text-sub: #5a6a80;
+    --border: #dde4ef;
+    --green: #1aaa72;
+    --tag-ab: #e8f0fb; --tag-ab-text: #1e6fc8;
+    --tag-pain: #fef3e2; --tag-pain-text: #c47a00;
+    --tag-gi: #e9faf2; --tag-gi-text: #0e8a58;
+    --tag-chx: #f0eaff; --tag-chx-text: #6b3fa0;
+    --tag-speech: #fff0f5; --tag-speech-text: #c0295a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; max-width: 480px; margin: 0 auto; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); padding: 18px 18px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(13,43,78,0.25); }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .header-logo { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+  .header-badge { background: var(--accent); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+  .header-title { color: #fff; font-size: 19px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 3px; }
+  .header-sub { color: rgba(255,255,255,0.6); font-size: 11px; margin-bottom: 14px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 2px; background: rgba(255,255,255,0.1); border-radius: 12px 12px 0 0; padding: 4px 4px 0; overflow-x: auto; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 1; min-width: 60px; text-align: center; padding: 9px 4px; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.55); border-radius: 10px 10px 0 0; cursor: pointer; transition: all 0.2s; background: transparent; border: none; white-space: nowrap; user-select: none; }
+  .tab.active { background: var(--bg); color: var(--navy); }
+  .tab-icon { display: block; font-size: 15px; margin-bottom: 2px; }
+
+  /* CONTENT */
+  .content { padding: 14px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* INTRO BANNER */
+  .intro-banner { background: linear-gradient(120deg, var(--navy) 0%, var(--navy-mid) 100%); border-radius: 14px; padding: 13px 15px; margin-bottom: 13px; display: flex; align-items: center; gap: 11px; }
+  .intro-icon { font-size: 26px; }
+  .intro-text { font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+  .intro-text strong { color: #fff; }
+
+  /* SCENARIO CARD */
+  .scenario-card { background: var(--card); border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(13,43,78,0.07); border: 1px solid var(--border); }
+  .card-header { padding: 13px 15px 11px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+  .card-num { width: 27px; height: 27px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; }
+  .card-title-wrap { flex: 1; }
+  .card-from { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 2px; opacity: 0.7; }
+  .card-title { font-size: 14px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.3; }
+  .card-chevron { font-size: 14px; color: var(--text-sub); transition: transform 0.3s; flex-shrink: 0; }
+  .card-chevron.open { transform: rotate(180deg); }
+  .card-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .card-body.open { max-height: 2000px; }
+  .card-inner { padding: 13px 15px 15px; }
+
+  /* POINT ITEMS */
+  .point-item { display: flex; gap: 10px; margin-bottom: 9px; align-items: flex-start; }
+  .point-item:last-child { margin-bottom: 0; }
+  .point-bullet { width: 21px; height: 21px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; margin-top: 1px; }
+  .point-text { font-size: 13px; line-height: 1.65; color: var(--text); flex: 1; }
+  .point-text strong { font-weight: 700; }
+  .point-text em { font-style: normal; color: var(--accent2); font-weight: 700; }
+
+  /* TABLE */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .compare-table th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: center; font-weight: 700; font-size: 11px; }
+  .compare-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); text-align: center; color: var(--text); }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: var(--bg); }
+  .compare-table .highlight { font-weight: 800; color: var(--blue); }
+  .compare-table .row-head { text-align: left; color: var(--text-sub); font-size: 11px; }
+
+  /* CONCLUSION BOX */
+  .conclusion-box { border-radius: 10px; padding: 10px 12px; margin-top: 12px; font-size: 12.5px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+  .conclusion-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* WARN BOX */
+  .warn-box { background: #fff8e1; border: 1px solid #ffc107; border-radius: 10px; padding: 10px 12px; margin-top: 10px; font-size: 12px; color: #7a5000; display: flex; gap: 8px; line-height: 1.6; }
+
+  /* SUB-SECTION LABEL */
+  .sub-label { font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin: 12px 0 8px; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px dashed var(--border); margin: 11px 0; }
+
+  /* COLOR THEMES */
+  .ab { --c: var(--blue); --c-bg: var(--tag-ab); --c-text: var(--tag-ab-text); }
+  .pain { --c: var(--accent); --c-bg: var(--tag-pain); --c-text: var(--tag-pain-text); }
+  .gi { --c: var(--green); --c-bg: var(--tag-gi); --c-text: var(--tag-gi-text); }
+  .chx { --c: #6b3fa0; --c-bg: var(--tag-chx); --c-text: var(--tag-chx-text); }
+  .speech-cat { --c: #c0295a; --c-bg: var(--tag-speech); --c-text: var(--tag-speech-text); }
+
+  .scenario-card .card-num { background: var(--c-bg); color: var(--c-text); }
+  .scenario-card .card-from { color: var(--c-text); }
+  .scenario-card .point-bullet { background: var(--c-bg); color: var(--c-text); }
+  .scenario-card .conclusion-box { background: var(--c-bg); color: var(--c-text); }
+  .scenario-card .sub-label { background: var(--c-bg); color: var(--c-text); }
+
+  /* ====== SPEECH TAB ====== */
+  .speech-filter { display: flex; gap: 7px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+  .speech-filter::-webkit-scrollbar { display: none; }
+  .filter-btn { padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--card); font-size: 12px; font-weight: 700; color: var(--text-sub); cursor: pointer; white-space: nowrap; transition: all 0.2s; user-select: none; }
+  .filter-btn.active { border-color: var(--navy); background: var(--navy); color: #fff; }
+
+  .speech-card { background: var(--card); border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(13,43,78,0.07); border: 1px solid var(--border); }
+  .speech-header { padding: 13px 15px 11px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .speech-header.open { border-bottom-color: var(--border); }
+  .speech-icon { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .speech-info { flex: 1; }
+  .speech-cat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .speech-name { font-size: 15px; font-weight: 900; letter-spacing: -0.4px; }
+  .speech-ingredient { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+  .speech-chevron { font-size: 14px; color: var(--text-sub); transition: transform 0.3s; flex-shrink: 0; }
+  .speech-chevron.open { transform: rotate(180deg); }
+
+  .speech-body { max-height: 0; overflow: hidden; transition: max-height 0.45s ease; }
+  .speech-body.open { max-height: 2000px; }
+  .speech-inner { padding: 14px 16px 16px; }
+
+  .speech-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .speech-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  .speech-label { font-size: 10px; font-weight: 800; letter-spacing: 0.8px; color: var(--text-sub); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .speech-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .speech-box { background: var(--bg); border-radius: 12px; padding: 13px 14px; font-size: 13px; line-height: 1.85; color: var(--text); border-left: 3px solid var(--c, var(--navy)); position: relative; }
+  .speech-box .bracket { color: var(--text-sub); font-size: 11px; font-weight: 700; display: block; margin-bottom: 3px; margin-top: 10px; }
+  .speech-box .bracket:first-child { margin-top: 0; }
+  .speech-box em { font-style: normal; font-weight: 800; color: var(--c, var(--navy)); }
+
+  .spec-row { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .spec-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px; font-size: 11px; color: var(--text-sub); }
+  .spec-item strong { color: var(--text); font-weight: 700; display: block; font-size: 12px; }
+
+  .copy-btn { width: 100%; margin-top: 12px; padding: 10px; border-radius: 10px; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .copy-btn:active { transform: scale(0.97); }
+
+  .bottom-space { height: 40px; }
+
+  /* ====== Q&A CARDS ====== */
+  .qna-card { background: var(--card); border-radius: 14px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(13,43,78,0.07); border: 1px solid var(--border); }
+  .qna-header { padding: 13px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+  .qna-badge { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .qna-q { flex: 1; font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .qna-chevron { font-size: 13px; color: var(--text-sub); transition: transform 0.3s; flex-shrink: 0; }
+  .qna-chevron.open { transform: rotate(180deg); }
+  .qna-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; border-top: 0px solid var(--border); }
+  .qna-body.open { max-height: 600px; border-top: 1px solid var(--border); }
+  .qna-a { padding: 13px 15px 15px; font-size: 13px; color: var(--text-sub); line-height: 1.75; }
+  .qna-a strong { color: var(--text); font-weight: 700; }
+
+  /* Speech card color override */
+  .speech-card[data-cat="ab"] { --c: var(--blue); }
+  .speech-card[data-cat="pain"] { --c: #c47a00; }
+  .speech-card[data-cat="gi"] { --c: #0e8a58; }
+  .speech-card[data-cat="chx"] { --c: #6b3fa0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="header-logo">OSSTEM IMPLANT</span>
+    <span class="header-badge">MR 토킹포인트</span>
+  </div>
+  <div class="header-title">경구제 전환 공략 카드</div>
+  <div class="header-sub">CHX 단일처방 거래처 → 자사 경구제 전환</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('ab', this)">
+      <span class="tab-icon">💊</span>항생제
+    </button>
+    <button class="tab" onclick="switchTab('pain', this)">
+      <span class="tab-icon">🔥</span>진통소염제
+    </button>
+    <button class="tab" onclick="switchTab('gi', this)">
+      <span class="tab-icon">🌿</span>소화기제
+    </button>
+    <button class="tab" onclick="switchTab('speech', this)">
+      <span class="tab-icon">🎤</span>스피치
+    </button>
+    <button class="tab" onclick="switchTab('qna', this)">
+      <span class="tab-icon">❓</span>Q&amp;A
+    </button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ========== 항생제 ========== -->
+  <div class="section active" id="sec-ab">
+    <div class="intro-banner">
+      <div class="intro-icon">💊</div>
+      <div class="intro-text"><strong>항생제 전환 전략</strong><br>타사 처방 패턴별 자사 세파클리·아목시클라·아목시스 전환 논리</div>
+    </div>
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">아목시실린 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">세파클리캡슐은 아목시실린 대비 <strong>조직 침투력↑</strong>, <strong>그람양성·음성 커버 스펙트럼↑</strong></div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">복기 오래감·통증 지속·재내원 등 <strong>환자 불편감 최소화</strong> → 치과 신뢰도 상승</div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">재내원이 줄면 <strong>스케줄 운영이 훨씬 편함</strong>을 원장님께 직접 강조</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>전환 추천: <strong>세파클리캡슐</strong> — 스펙트럼·침투력·편의성 3박자</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">성분 유사 항생제 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">성분이 유사하므로 <em>효과 차이로 승부하지 않음</em></div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text"><strong>오스템치과 브랜드</strong> + 치과 전문 처방의약품담당자의 <strong>신뢰</strong> 어필</div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">부작용 대응·담당자 즉각 대응 <strong>커뮤니케이션 차별화</strong>가 핵심</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div><strong>브랜드 신뢰 + 빠른 CS 대응</strong>으로 관계 차별화 전략</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">세파항생제 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">아목시클라는 치과 감염균 중 <strong>혐기성균 커버에 특화</strong></div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">치과 감염 상당수 = <strong>혐기성균 + β-lactamase 생성균</strong> → 페니실린계 단독으로는 한계</div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">세파 대비 <strong>흡수도 우수</strong> → 아목시클라가 치과 감염에 더 적합</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>전환 추천: <strong>아목시클라</strong> — 혐기성균 커버 + 흡수도 논리</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">로도질 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">로도질: <strong>공급 불안정</strong> / <em>삭제 코드</em> / <strong>EDI 코드 정리 이슈</strong> → 유지 자체가 어려운 상황</div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">"대체가 아니라 <strong>필수 전환 상황</strong>"으로 프레이밍</div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">전환 조합: <strong>아목시스캡슐</strong>(혐기성균 커버) + <strong>후라시닐</strong>(호기성균 커버)</div></div>
+          <div class="warn-box"><span>⚠️</span><span><strong>주의:</strong> 후라시닐은 아목시스캡슐과 동시 투여 시 <strong>비급여 분류처방 필수</strong></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card ab">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">퀴놀론계 / 록시스로마이신 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="sub-label">퀴놀론계 (Cipro·Levo)</div>
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">그람음성균에는 강하나 <strong>혐기성균 효과 제한적</strong></div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">치과 감염(혐기성+그람양성) 커버에 <strong>단독 사용 부적합</strong></div></div>
+          <hr class="divider">
+          <div class="sub-label">록시스로마이신</div>
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">항균 스펙트럼 좁음 → 구강 내 <strong>혐기성균+연쇄상구균</strong> 커버에 아목시실린이 훨씬 광범위·강력</div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">중등도 이상 감염 시 <em>치료 실패 위험</em> 명시하여 전환 설득</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>"처방 논리 자체의 부적합"으로 <strong>아목시클라 or 세파클리</strong> 전환</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 진통소염제 ========== -->
+  <div class="section" id="sec-pain">
+    <div class="intro-banner">
+      <div class="intro-icon">🔥</div>
+      <div class="intro-text"><strong>진통소염제 전환 전략</strong><br>타사 처방 패턴별 자사 록소리펜·나프록소·아세클로페낙 전환 논리</div>
+    </div>
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">타이레놀 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">치과 통증의 본질 = <strong>염증성 통증</strong> (치수염·치근단염·발치 후·임플란트 수술 후)</div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">타이레놀 = 통증만 억제, <em>염증 자체는 못 잡음</em></div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">NSAIDs = <strong>통증·염증·부종 동시 해결</strong></div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>전환: <strong>록소리펜 / 나프록소 / 아세클로페낙</strong></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">아세트산 계열 처방처 (아스피린)</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">아스피린 = <strong>비가역적</strong> 혈소판 응집 억제 → 혈소판 기능 <strong>7~10일 저하</strong></div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">발치·임플란트 전 복용 → <em>수술 후 출혈 위험 증가</em></div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">수술 직전 진통제로 <strong>부적합</strong>, 분류 틀림 명확히 강조</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>전환: <strong>록소리펜 / 나프록소 / 아세클로페낙</strong></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">록소프로펜 처방처 → 나프록소 전환</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr><th class="row-head">비교항목</th><th>록소프로펜</th><th>나프록소 ✅</th></tr>
+            <tr><td class="row-head">복용 횟수</td><td>1일 3회</td><td class="highlight">1일 2회</td></tr>
+            <tr><td class="row-head">작용 지속</td><td>6~8시간</td><td class="highlight">10~12시간</td></tr>
+            <tr><td class="row-head">야간 통증 조절</td><td>보통</td><td class="highlight">유리 ↑</td></tr>
+            <tr><td class="row-head">항염 지속력</td><td>빠르나 단기</td><td class="highlight">오래 지속</td></tr>
+          </table>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>염증 오래가는 케이스·심혈관 병력 환자 → <strong>나프록소</strong></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">나프록소 처방처 → 록소리펜 전환</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">치과 통증 = 대개 <strong>급성·단기</strong> → 빠른 작용 우선</div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">나프록소: 위장 자극 <em>위험 비교적 높음</em></div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">록소프로펜 = <strong>프로드럭(prodrug)</strong> → <strong>위장 부담 최소화</strong></div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>급성 단기 + 위장 걱정 케이스 → <strong>록소리펜</strong></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card pain">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">이부프로펜 처방처 → 록소리펜 전환</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr><th class="row-head">비교항목</th><th>이부프로펜</th><th>록소리펜 ✅</th></tr>
+            <tr><td class="row-head">급성 치통 체감</td><td>약간 약함</td><td class="highlight">강한 편</td></tr>
+            <tr><td class="row-head">부종·염증 억제</td><td>보통</td><td class="highlight">임상 우위</td></tr>
+            <tr><td class="row-head">발치·농양 케이스</td><td>차선</td><td class="highlight">선호 경향</td></tr>
+            <tr><td class="row-head">위장 부담</td><td>보통</td><td class="highlight">프로드럭, 적음</td></tr>
+          </table>
+          <div class="conclusion-box"><div class="icon">🎯</div><div><strong>빠른 발현 + 위장 부담 적음 + 염증 억제 우수</strong> — 록소리펜 3대 강점</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 소화기제 ========== -->
+  <div class="section" id="sec-gi">
+    <div class="intro-banner">
+      <div class="intro-icon">🌿</div>
+      <div class="intro-text"><strong>소화기제 전환 전략</strong><br>타사 처방 패턴별 자사 에스오메프라졸·모사프리·알마펜 전환 논리</div>
+    </div>
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">레바미피드 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">레바미피드 = <strong>위 점막 보호</strong> 작용 → 위산 직접 억제 ✗</div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">산 관련 통증에 <em>역부족</em>, 임상적으로 <strong>PPI와 병용</strong>하는 경우가 많음</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>결론: <strong>에스오메프라졸(PPI)</strong>이 단독으로 더 적절</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">알마펜 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr><th class="row-head">비교항목</th><th>알마게이트</th><th>에스오메프라졸 ✅</th></tr>
+            <tr><td class="row-head">작용 원리</td><td>위산 중화</td><td class="highlight">위산 생성 억제</td></tr>
+            <tr><td class="row-head">효과 지속</td><td>빠르나 단기</td><td class="highlight">장시간 지속</td></tr>
+            <tr><td class="row-head">복용 편의</td><td>1일 3~4회, 큰 정제</td><td class="highlight">1일 1회, 캡슐</td></tr>
+          </table>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>발치·구강 수술 환자 → <strong>삼키기 편한 1일 1회</strong> 에스오메프라졸</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">모사프리 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">모사프리 = <strong>위장관 운동 촉진제</strong> → NSAIDs 위 점막 보호 목적 ✗</div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">위염·위궤양 <strong>예방 효과 없음</strong>, NSAIDs 유발 위장병 적응증 ✗</div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div><strong>"쓰임이 다른 약"</strong> → <strong>에스오메프라졸</strong>이 NSAIDs 보호에 직접적</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">타사 PPI 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="point-item"><div class="point-bullet">①</div><div class="point-text">타사 에스오메프라졸 20mg: <em>600~700원대</em> vs 오스템: <strong>300원 후반대</strong></div></div>
+          <div class="point-item"><div class="point-bullet">②</div><div class="point-text">같은 성분 → <strong>생동성 99%, 효능·효과 동일</strong></div></div>
+          <div class="point-item"><div class="point-bullet">③</div><div class="point-text">환자 본인부담금 감소 → <strong>치과 처방부담 차별화 포인트</strong></div></div>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>같은 약, 낮은 가격 → <strong>환자 만족도 + 처방 경쟁력</strong> 동시 향상</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-card gi">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">타사 처방처</div>
+          <div class="card-title">라베프라졸 등 기타 위장관제 처방처</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <table class="compare-table">
+            <tr><th class="row-head">비교항목</th><th>라베프라졸</th><th>에스오메프라졸 ✅</th></tr>
+            <tr><td class="row-head">대사 안정성</td><td>개인차 큼</td><td class="highlight">S-이성체, 안정적</td></tr>
+            <tr><td class="row-head">효과 일관성</td><td>사람에 따라 차이</td><td class="highlight">일관성 높음</td></tr>
+            <tr><td class="row-head">근거 기반</td><td>보통</td><td class="highlight">매우 풍부</td></tr>
+          </table>
+          <div class="conclusion-box"><div class="icon">🎯</div><div>장기 치료·복합질환 케이스 → <strong>에스오메프라졸</strong> 근거 우위</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 1분 스피치 ========== -->
+  <div class="section" id="sec-speech">
+    <div class="intro-banner">
+      <div class="intro-icon">🎤</div>
+      <div class="intro-text"><strong>제품별 1분 핵심 스피치</strong><br>원장님 앞에서 바로 꺼낼 수 있는 핵심 멘트</div>
+    </div>
+
+    <div class="speech-filter">
+      <button class="filter-btn active" onclick="filterSpeech('all', this)">전체</button>
+      <button class="filter-btn" onclick="filterSpeech('ab', this)">항생제</button>
+      <button class="filter-btn" onclick="filterSpeech('pain', this)">진통소염제</button>
+      <button class="filter-btn" onclick="filterSpeech('gi', this)">소화기제</button>
+      <button class="filter-btn" onclick="filterSpeech('chx', this)">CHX</button>
+    </div>
+
+    <!-- 아목시스캡슐 -->
+    <div class="speech-card" data-cat="ab">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#e8f0fb;">💊</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#1e6fc8;">항생제</div>
+          <div class="speech-name">아목시스 캡슐</div>
+          <div class="speech-ingredient">Amoxicillin 500mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 3회</strong>성인 용법</div>
+            <div class="spec-item"><strong>81원</strong>/캡슐</div>
+            <div class="spec-item"><strong>300C/30C</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">발치 후 감염</span>
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">수술 후 2차 감염</span>
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">혐기성균 커버</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#1e6fc8;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 발치나 임플란트 수술 후에 항생제 처방하실 때 <em>아목시실린 계열</em> 쓰시죠?
+            <span class="bracket">🎯 핵심 포인트</span>
+            저희 아목시스캡슐은 <em>500mg 고용량</em>으로, 구강 내 혐기성균을 포함한 주요 감염균에 폭넓게 작용합니다. 특히 <em>발치 후, 창상, 수술 후 2차 감염</em> 적응증이 명확하게 잡혀 있어 치과 처방에 딱 맞는 약이에요.
+            <span class="bracket">💰 차별화</span>
+            보험상한가 <em>81원/캡슐</em>로 환자 부담도 낮고, 오스템 브랜드라 원장님 신뢰도 있고요. 저도 직접 CS 챙겨드리니까 문제 생기면 바로 연락 주세요.
+            <span class="bracket">✅ 클로징</span>
+            다음 발치 케이스부터 한 번 써보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#e8f0fb;color:#1e6fc8;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아목시클라 -->
+    <div class="speech-card" data-cat="ab">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#e8f0fb;">💊</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#1e6fc8;">항생제</div>
+          <div class="speech-name">아목시클라 정</div>
+          <div class="speech-ingredient">Amoxicillin 250mg + Clavulanate 125mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 3회</strong>8시간 간격</div>
+            <div class="spec-item"><strong>300원</strong>/정</div>
+            <div class="spec-item"><strong>100T/PTP</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">치과감염</span>
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">β-lactamase 억제</span>
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">혐기성균 특화</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#1e6fc8;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 치주염이나 치근단 감염처럼 <em>혐기성균이 주범인 케이스</em>에 어떤 항생제 쓰세요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            아목시클라는 아목시실린에 <em>클라불란산(β-lactamase 억제제)</em>을 결합한 복합 항생제예요. 구강 내 감염균 상당수가 β-lactamase를 생성해서 아목시실린 단독으론 내성 생기는 경우가 있거든요. 아목시클라는 이걸 차단하면서 <em>혐기성균까지 강력하게 커버</em>해요.
+            <span class="bracket">💰 차별화</span>
+            치과 감염 적응증 5일 단기처방으로 처방 부담도 적고, 치주염·상처 감염·편도 감염까지 폭넓게 쓰실 수 있어요.
+            <span class="bracket">✅ 클로징</span>
+            다음 치주 관련 감염 케이스에 한번 적용해보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#e8f0fb;color:#1e6fc8;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 세파클리 -->
+    <div class="speech-card" data-cat="ab">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#e8f0fb;">💊</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#1e6fc8;">항생제</div>
+          <div class="speech-name">세파클리 캡슐</div>
+          <div class="speech-ingredient">Cefaclor 250mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1회 1정</strong>8시간마다</div>
+            <div class="spec-item"><strong>372원</strong>/캡슐</div>
+            <div class="spec-item"><strong>100C/30C</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">창상감염</span>
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">연조직염</span>
+            <span class="speech-tag" style="background:#e8f0fb;color:#1e6fc8;">광범위 스펙트럼</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#1e6fc8;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 아목시실린 쓰시는데 <em>환자가 재내원 많이 하거나 통증이 오래간다</em>는 느낌 받으신 적 있으세요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            세파클리는 2세대 세팔로스포린으로, 아목시실린보다 <em>조직 침투력이 높고 그람양성·음성 모두 커버</em>해요. 창상 감염이나 연조직염처럼 깊은 감염에도 효과적이라 치유 속도가 빠르고 재내원률이 줄어드는 경향이 있어요.
+            <span class="bracket">💰 차별화</span>
+            원장님 입장에서는 <em>환자 재내원이 줄면 스케줄 운영도 훨씬 편해지죠.</em> 환자 만족도도 올라가고요.
+            <span class="bracket">✅ 클로징</span>
+            이번 주 감염 케이스 한 분한테 먼저 써보시고 피드백 주시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#e8f0fb;color:#1e6fc8;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 록소리펜 -->
+    <div class="speech-card" data-cat="pain">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#fef3e2;">🔥</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#c47a00;">진통소염제</div>
+          <div class="speech-name">록소리펜 정</div>
+          <div class="speech-ingredient">Loxoprofen 60mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 3회</strong>60mg</div>
+            <div class="spec-item"><strong>125원</strong>/정</div>
+            <div class="spec-item"><strong>500T/30T</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">수술 후 소염진통</span>
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">발치 후</span>
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">프로드럭</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#c47a00;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 발치나 임플란트 후에 진통소염제 어떤 걸 주로 처방하세요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            록소리펜은 <em>프로드럭</em>이라 위에서 바로 작용 안 하고 체내에서 활성형으로 전환돼요. 그래서 NSAIDs 중에서도 <em>위장 부담이 적은 편</em>이에요. 동시에 발치 후, 외상 후 소염·진통 적응증이 명확해서 치과 처방에 딱 맞아요.
+            <span class="bracket">💰 차별화</span>
+            타이레놀 쓰시는 곳은 사실 <em>염증은 못 잡고 통증만 억제</em>하는 거라, NSAIDs인 록소리펜이 치과 처방 목적에 훨씬 적합해요. 오스템 제품이라 CS도 제가 직접 챙겨드려요.
+            <span class="bracket">✅ 클로징</span>
+            다음 발치 환자부터 바로 처방해보실 수 있어요!
+          </div>
+          <button class="copy-btn" style="background:#fef3e2;color:#c47a00;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 나프록소 -->
+    <div class="speech-card" data-cat="pain">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#fef3e2;">🔥</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#c47a00;">진통소염제</div>
+          <div class="speech-name">나프록소 정</div>
+          <div class="speech-ingredient">Naproxen Sodium 275mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 2회</strong>275mg</div>
+            <div class="spec-item"><strong>115원</strong>/정</div>
+            <div class="spec-item"><strong>300T</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">중증 동통</span>
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">수술 후 동통</span>
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">1일 2회 편의</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#c47a00;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 임플란트나 발치 후에 통증이 며칠씩 가는 중증 케이스 있으시죠?
+            <span class="bracket">🎯 핵심 포인트</span>
+            나프록소는 작용 시간이 <em>10~12시간</em>으로 NSAIDs 중 가장 긴 편이라 <em>1일 2회</em>만 드셔도 야간 통증 조절까지 가능해요. 수술 후나 발치 후 중증 동통에 적응증이 잡혀 있고, 항염 지속력이 강해서 며칠씩 아픈 케이스에 특히 유리해요.
+            <span class="bracket">💰 차별화</span>
+            1일 3회 약보다 복약 순응도가 높아서 <em>환자가 빠뜨리는 경우도 줄어들어요.</em> 지속적인 혈중 농도 유지로 통증 재발도 적고요.
+            <span class="bracket">✅ 클로징</span>
+            다음에 임플란트 수술 환자 계시면 한번 적용해보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#fef3e2;color:#c47a00;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아세클로페낙 -->
+    <div class="speech-card" data-cat="pain">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#fef3e2;">🔥</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#c47a00;">진통소염제</div>
+          <div class="speech-name">오스템 아세클로페낙 정</div>
+          <div class="speech-ingredient">Aceclofenac 100mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 2회</strong>100mg</div>
+            <div class="spec-item"><strong>160원</strong>/정</div>
+            <div class="spec-item"><strong>100T</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">치통</span>
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">외상 후 염증</span>
+            <span class="speech-tag" style="background:#fef3e2;color:#c47a00;">1일 2회</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#c47a00;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 치통이나 외상 후 염증 처방에 진통소염제 쓰실 때 하루에 몇 번 처방하세요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            아세클로페낙은 <em>1일 2회</em>로 처방 부담도 낮고, 치통·외상 후 생기는 염증에 적응증이 명확해요. COX-2 선택성이 다른 NSAIDs보다 상대적으로 높아 <em>위장 부담이 적은 편</em>이에요. 간경화 환자 초기에는 1일 100mg으로 신중하게 쓸 수 있어요.
+            <span class="bracket">💰 차별화</span>
+            치통처럼 급성 통증에 빠르게 반응하면서, 1일 2회라 환자 복약 편의성도 좋아요. 오스템 제품이라 처방 이력 관리도 저한테 바로 문의 가능하고요.
+            <span class="bracket">✅ 클로징</span>
+            치통 케이스 다음번에 한번 처방해보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#fef3e2;color:#c47a00;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 알마펜 -->
+    <div class="speech-card" data-cat="gi">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#e9faf2;">🌿</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#0e8a58;">소화기제</div>
+          <div class="speech-name">알마펜 정</div>
+          <div class="speech-ingredient">Almagate 500mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 3회</strong>1g</div>
+            <div class="spec-item"><strong>55원</strong>/정</div>
+            <div class="spec-item"><strong>500T</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">속쓰림</span>
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">위산 과다</span>
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">위산 중화</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#0e8a58;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, NSAIDs 처방하실 때 소화기 보호약 같이 처방하시죠?
+            <span class="bracket">🎯 핵심 포인트</span>
+            알마펜은 <em>위산을 직접 중화</em>하는 제산제예요. 속쓰림·위산 과다·신트림처럼 즉각적인 증상 완화가 필요한 케이스에 빠르게 효과가 나타나요. 취침 전에도 복용 가능해서 야간 불편감 있는 환자에게도 좋아요.
+            <span class="bracket">💰 차별화</span>
+            보험상한가 <em>55원/정</em>으로 환자 부담이 매우 낮아요. NSAIDs 병용 시 즉각 증상 완화용으로 PPI와 함께 세팅하면 커버리지가 완성돼요.
+            <span class="bracket">✅ 클로징</span>
+            NSAIDs 처방하실 때 알마펜이나 에스오메프라졸 같이 세팅해보시면 어떨까요?
+          </div>
+          <button class="copy-btn" style="background:#e9faf2;color:#0e8a58;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모사프리 -->
+    <div class="speech-card" data-cat="gi">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#e9faf2;">🌿</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#0e8a58;">소화기제</div>
+          <div class="speech-name">모사프리 정</div>
+          <div class="speech-ingredient">Mosapride Citrate 5mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 3회</strong>식전·식후</div>
+            <div class="spec-item"><strong>105원</strong>/정</div>
+            <div class="spec-item"><strong>300T/100T</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">구역·구토</span>
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">기능성 소화불량</span>
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">위장운동 촉진</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#0e8a58;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 환자분들 처치 후에 구역감이나 복부 불편감 호소하는 경우 있으시죠?
+            <span class="bracket">🎯 핵심 포인트</span>
+            모사프리는 <em>위장관 운동을 촉진</em>해서 구역·구토·복부 팽만감을 해소하는 약이에요. 항생제나 진통소염제 복용 후 소화 불편감 호소하는 환자에게 병용하시면 순응도가 훨씬 올라가요.
+            <span class="bracket">💰 차별화</span>
+            기능성 소화불량·구역·구토 세 가지 적응증이 다 잡혀 있고, 보험 처방 가능해요. 치과에서 약 처방 세트 구성할 때 <em>항생제 + NSAIDs + 모사프리</em> 조합이면 환자 컴플레인 줄어들어요.
+            <span class="bracket">✅ 클로징</span>
+            소화 불편 많이 호소하는 환자 계시면 다음번에 같이 처방해보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#e9faf2;color:#0e8a58;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 에스오메프라졸 -->
+    <div class="speech-card" data-cat="gi">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#e9faf2;">🌿</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#0e8a58;">소화기제</div>
+          <div class="speech-name">오스템에스오메프라졸 20mg</div>
+          <div class="speech-ingredient">Esomeprazole 21.69mg</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="spec-row">
+            <div class="spec-item"><strong>1일 1회</strong>투여</div>
+            <div class="spec-item"><strong>399원</strong>/정</div>
+            <div class="spec-item"><strong>28정/상자</strong>포장</div>
+          </div>
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">PPI</span>
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">NSAIDs 위장보호</span>
+            <span class="speech-tag" style="background:#e9faf2;color:#0e8a58;">1일 1회</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#0e8a58;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, NSAIDs 처방하실 때 위장 보호약 같이 주시나요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            에스오메프라졸은 PPI 중에서도 <em>S-이성체</em>라 대사 안정성이 높고 효과 일관성이 좋아요. NSAIDs로 인한 위장 손상 예방에 가장 직접적으로 작용하는 약이에요. <em>1일 1회</em>라 환자 복약도 편하고요.
+            <span class="bracket">💰 차별화</span>
+            타사 에스오메프라졸 20mg이 600~700원대인데 저희는 <em>300원 후반대</em>예요. 같은 성분, 생동성 99%, 효과 동일한데 환자 부담이 절반 가까이 줄어요. 처방 전환 이유로 충분하지 않나요?
+            <span class="bracket">✅ 클로징</span>
+            지금 쓰시는 PPI 있으시면 저희 걸로 바꿔보시겠어요? 가격 차이 확실히 느끼실 거예요.
+          </div>
+          <button class="copy-btn" style="background:#e9faf2;color:#0e8a58;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHX 15mL -->
+    <div class="speech-card" data-cat="chx">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#f0eaff;">🔷</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#6b3fa0;">CHX</div>
+          <div class="speech-name">클로르헥시딘 15mL</div>
+          <div class="speech-ingredient">Chlorhexidine Gluconate</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#f0eaff;color:#6b3fa0;">환자용 가정 양치</span>
+            <span class="speech-tag" style="background:#f0eaff;color:#6b3fa0;">수술 전후 구강소독</span>
+            <span class="speech-tag" style="background:#f0eaff;color:#6b3fa0;">처방 게이트웨이</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#6b3fa0;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 임플란트나 발치 후 환자한테 구강 소독 안내 어떻게 하세요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            저희 클로르헥시딘 15mL는 <em>환자 가정용 1회 용량</em>으로 딱 맞게 나온 제품이에요. 수술 전후 구강 내 세균 수를 줄여줘서 감염 예방에 효과적이고, 치은염 예방에도 쓰여요. 처방전 발행하시면 약국에서 바로 받을 수 있어요.
+            <span class="bracket">💰 차별화</span>
+            CHX 처방 하나로 <em>처방전 발행 루틴</em>을 만들어 두시면, 이후에 항생제·진통소염제 세팅으로 자연스럽게 연결돼요. 진입 장벽이 가장 낮은 처방 아이템이에요.
+            <span class="bracket">✅ 클로징</span>
+            수술 후 환자 안내에 CHX부터 하나 넣어보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#f0eaff;color:#6b3fa0;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHX 100mL -->
+    <div class="speech-card" data-cat="chx">
+      <div class="speech-header" onclick="toggleSpeech(this)">
+        <div class="speech-icon" style="background:#f0eaff;">🔷</div>
+        <div class="speech-info">
+          <div class="speech-cat-label" style="color:#6b3fa0;">CHX</div>
+          <div class="speech-name">클로르헥시딘 100mL</div>
+          <div class="speech-ingredient">Chlorhexidine Gluconate</div>
+        </div>
+        <div class="speech-chevron">▼</div>
+      </div>
+      <div class="speech-body">
+        <div class="speech-inner">
+          <div class="speech-tags">
+            <span class="speech-tag" style="background:#f0eaff;color:#6b3fa0;">원내 사용</span>
+            <span class="speech-tag" style="background:#f0eaff;color:#6b3fa0;">대용량</span>
+            <span class="speech-tag" style="background:#f0eaff;color:#6b3fa0;">수술 전 헹굼</span>
+          </div>
+          <div class="speech-label">1분 스피치</div>
+          <div class="speech-box" style="border-left-color:#6b3fa0;">
+            <span class="bracket">🔵 오프닝</span>
+            원장님, 수술 전에 원내에서 환자한테 구강 소독 따로 하시나요?
+            <span class="bracket">🎯 핵심 포인트</span>
+            클로르헥시딘 100mL는 <em>원내 사용용 대용량</em> 제품이에요. 임플란트·발치·치주 수술 전 환자가 원내에서 헹구는 용도로 쓰기 딱 좋아요. 수술 전 구강 내 세균 부하를 줄여두면 <em>수술 후 감염 위험이 낮아져요.</em>
+            <span class="bracket">💰 차별화</span>
+            원내 비치해두시면 수술 직전 루틴으로 바로 쓸 수 있고, <em>15mL 처방용과 세트로 쓰시면</em> 원내·가정 구강 관리가 완성돼요. 오스템 처방약 세팅의 첫 단계로 CHX 원내 비치부터 시작해보세요.
+            <span class="bracket">✅ 클로징</span>
+            원내에 하나 비치해두시는 것만으로도 수술 퀄리티 올라간다고 원장님들이 말씀하세요. 한번 써보시겠어요?
+          </div>
+          <button class="copy-btn" style="background:#f0eaff;color:#6b3fa0;" onclick="copyText(this)">📋 스피치 복사</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sec-speech -->
+
+  <!-- ========== Q&A ========== -->
+  <div class="section" id="sec-qna">
+    <div class="intro-banner">
+      <div class="intro-icon">❓</div>
+      <div class="intro-text"><strong>원장님 자주 묻는 질문</strong><br>현장에서 바로 답할 수 있는 핵심 Q&A</div>
+    </div>
+
+    <!-- 카테고리 필터 -->
+    <div class="speech-filter">
+      <button class="filter-btn active" onclick="filterQna('all', this)">전체</button>
+      <button class="filter-btn" onclick="filterQna('ab', this)">항생제</button>
+      <button class="filter-btn" onclick="filterQna('pain', this)">진통소염제</button>
+      <button class="filter-btn" onclick="filterQna('gi', this)">소화기제</button>
+      <button class="filter-btn" onclick="filterQna('chx', this)">CHX</button>
+    </div>
+
+    <!-- 항생제 Q&A -->
+    <div class="qna-card" data-cat="ab">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e8f0fb;color:#1e6fc8;">항생제</div>
+        <div class="qna-q">아목시실린이랑 세파클리 뭐가 다른 거예요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">아목시실린은 페니실린계, 세파클리는 2세대 세팔로스포린계예요. 세파클리가 <strong>조직 침투력이 더 높고</strong> 그람양성·음성균을 더 넓게 커버해요. 발치 후 감염이나 연조직염처럼 깊은 감염엔 세파클리가 유리해요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="ab">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e8f0fb;color:#1e6fc8;">항생제</div>
+        <div class="qna-q">임플란트 수술 후 며칠치 처방하는 게 맞아요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">일반적으로 <strong>3~5일이 표준</strong>이에요. 감염 위험이 높은 케이스(당뇨, 면역저하)는 5~7일까지 고려하지만, 불필요한 장기처방은 내성 위험이 있어서 권장하지 않아요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="ab">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e8f0fb;color:#1e6fc8;">항생제</div>
+        <div class="qna-q">페니실린 알레르기 환자한테 뭐 쓰면 돼요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">세파클리(세팔로스포린계)를 우선 고려해요. <strong>교차반응률이 1~2%로 낮아</strong> 대부분 안전하게 쓸 수 있어요. 심한 페니실린 아나필락시스 병력이 있으면 클린다마이신이나 메트로니다졸 계열로 가야 해요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="ab">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e8f0fb;color:#1e6fc8;">항생제</div>
+        <div class="qna-q">항생제 내성 걱정되는데 단기처방해도 효과 있어요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">치과 감염은 대부분 급성·단기여서 <strong>3~5일 단기처방으로 충분히 효과</strong> 있어요. 오히려 필요 이상 길게 쓰는 게 내성을 키워요. 용량·용법을 정확히 지키는 게 기간보다 중요해요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="ab">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e8f0fb;color:#1e6fc8;">항생제</div>
+        <div class="qna-q">아목시클라가 아목시실린보다 비싼데 굳이 써야 해요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">치과 감염균 상당수가 <strong>β-lactamase를 생성</strong>해서 아목시실린 단독으로는 내성이 생길 수 있어요. 아목시클라는 클라불란산이 이걸 차단해서 혐기성균까지 확실하게 잡아요. 치주염이나 심한 감염 케이스엔 처음부터 아목시클라가 더 확실해요.</div>
+      </div>
+    </div>
+
+    <!-- 진통소염제 Q&A -->
+    <div class="qna-card" data-cat="pain">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#fef3e2;color:#c47a00;">진통소염제</div>
+        <div class="qna-q">록소프로펜이랑 이부프로펜 차이가 뭐예요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">둘 다 NSAIDs지만 록소프로펜은 <strong>프로드럭</strong>이라 위에서 활성형으로 전환돼요. 그래서 위장 부담이 더 적고, 치과 영역 부종·염증 억제 임상 경험이 더 좋은 편이에요. 발치 후·급성 치통엔 록소프로펜이 선호돼요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="pain">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#fef3e2;color:#c47a00;">진통소염제</div>
+        <div class="qna-q">발치 후 타이레놀 줘도 되지 않나요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">타이레놀은 통증은 억제하지만 <strong>염증은 못 잡아요.</strong> 발치 후 통증의 본질은 염증성 통증이라 NSAIDs가 근본적으로 맞아요. 타이레놀은 NSAIDs 금기 환자(위궤양, 항응고제 복용)의 대안으로 쓰는 거예요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="pain">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#fef3e2;color:#c47a00;">진통소염제</div>
+        <div class="qna-q">고혈압 환자한테 NSAIDs 써도 돼요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">단기 사용은 가능하지만 주의가 필요해요. NSAIDs가 혈압을 약간 올릴 수 있거든요. <strong>나프록소가 심혈관 안전성이 이론적으로 더 낫고,</strong> 복용 기간을 최소화하는 게 좋아요. 심부전이나 신기능 저하 환자는 피하는 게 원칙이에요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="pain">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#fef3e2;color:#c47a00;">진통소염제</div>
+        <div class="qna-q">아스피린 먹는 환자 수술 전에 끊어야 해요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a"><strong>단순 발치는 끊지 않아도 돼요.</strong> 저용량 아스피린(100mg)은 출혈량 증가가 미미해서 심혈관 위험 환자는 오히려 끊는 게 더 위험해요. 임플란트나 골 수술 같은 큰 시술은 주치의와 상의해서 결정해요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="pain">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#fef3e2;color:#c47a00;">진통소염제</div>
+        <div class="qna-q">나프록소가 하루 2번이면 환자가 더 잘 먹지 않나요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">맞아요. 작용 시간이 <strong>10~12시간으로 길어서 1일 2회로 충분하고</strong> 복약 순응도가 올라가요. 특히 야간 통증 조절이 필요한 케이스나 며칠씩 통증이 지속되는 환자한테 유리해요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="pain">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#fef3e2;color:#c47a00;">진통소염제</div>
+        <div class="qna-q">임플란트 후 통증이 심한데 뭐가 제일 세요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a"><strong>나프록소 550mg 첫 복용 후 275mg 유지</strong>가 중증 동통 적응증으로 잡혀 있어요. 지속 시간도 길고 항염 효과도 강해서 수술 후 심한 통증엔 나프록소가 적합해요.</div>
+      </div>
+    </div>
+
+    <!-- 소화기제 Q&A -->
+    <div class="qna-card" data-cat="gi">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e9faf2;color:#0e8a58;">소화기제</div>
+        <div class="qna-q">NSAIDs 줄 때 소화제 꼭 같이 줘야 해요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">고위험군(고령, 소화궤양 병력, 코르티코스테로이드 병용)은 <strong>PPI 병용이 권장</strong>돼요. 일반 성인 단기처방은 필수는 아니지만 위장 불편 호소가 많은 환자한테는 같이 주는 게 컴플레인을 줄여줘요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="gi">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e9faf2;color:#0e8a58;">소화기제</div>
+        <div class="qna-q">에스오메프라졸이랑 라베프라졸 차이 있어요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">에스오메프라졸은 <strong>S-이성체라 대사 안정성이 높고 효과 일관성이 좋아요.</strong> 라베프라졸은 개인차가 크게 나타나는 편이에요. 장기 치료나 증상이 심한 케이스엔 에스오메프라졸이 근거가 더 풍부해요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="gi">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e9faf2;color:#0e8a58;">소화기제</div>
+        <div class="qna-q">모사프리는 언제 쓰는 거예요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a"><strong>위장관 운동이 느려서 생기는 기능성 소화불량, 구역·구토·복부 팽만감</strong>에 써요. NSAIDs 위장 보호 목적으로는 적합하지 않아요. 항생제나 진통제 복용 후 소화 불편 호소하는 환자한테 병용하면 순응도가 올라가요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="gi">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#e9faf2;color:#0e8a58;">소화기제</div>
+        <div class="qna-q">알마펜이랑 PPI 같이 처방해도 돼요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">가능해요. 알마펜은 이미 생성된 위산을 <strong>즉각 중화</strong>해서 빠른 증상 완화를 주고, PPI는 위산 생성 자체를 억제해서 지속 효과를 줘요. 속쓰림이 심한 환자한테 단기 병용하면 즉각 + 지속 효과를 동시에 낼 수 있어요.</div>
+      </div>
+    </div>
+
+    <!-- CHX Q&A -->
+    <div class="qna-card" data-cat="chx">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#f0eaff;color:#6b3fa0;">CHX</div>
+        <div class="qna-q">CHX 처방전 꼭 끊어야 해요? 약국에서 사면 안 되나요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">약국에서 살 수 있는 CHX도 있지만 <strong>농도와 성분 구성이 달라요.</strong> 처방용 CHX는 치과 전문 농도로 잡혀 있고 원장님 처방 이력으로 관리되니까, 수술 전후 소독 목적이라면 처방 발행이 더 정확하고 환자 신뢰도도 높아요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="chx">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#f0eaff;color:#6b3fa0;">CHX</div>
+        <div class="qna-q">임플란트 수술 전 몇 분 전에 헹구게 해야 해요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">수술 직전 <strong>약 30초~1분간 충분히 헹구는 게 권장</strong>돼요. 구강 내 세균 부하를 유의미하게 줄일 수 있어요. 너무 일찍 하면 효과가 떨어지니까 시술 바로 직전이 가장 좋아요.</div>
+      </div>
+    </div>
+
+    <div class="qna-card" data-cat="chx">
+      <div class="qna-header" onclick="toggleQna(this)">
+        <div class="qna-badge" style="background:#f0eaff;color:#6b3fa0;">CHX</div>
+        <div class="qna-q">알코올 없는 CHX도 있어요?</div>
+        <div class="qna-chevron">▼</div>
+      </div>
+      <div class="qna-body">
+        <div class="qna-a">있어요. <strong>구강 건조증 환자, 알코올 민감 환자, 소아 환자</strong>한테는 알코올 프리 제형이 자극이 적어요. 처방 시 환자 상태에 맞게 선택해주시면 돼요.</div>
+      </div>
+    </div>
+
+  </div><!-- /sec-qna -->
+
+  <div class="bottom-space"></div>
+</div><!-- /content -->
+
+<script>
+  function switchTab(id, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('sec-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleCard(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.card-chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+
+  function toggleSpeech(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.speech-chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+    header.classList.toggle('open', !isOpen);
+  }
+
+  function filterSpeech(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.speech-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function filterQna(cat, btn) {
+    btn.closest('#sec-qna').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.qna-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+
+  function toggleQna(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.qna-chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+
+  function copyText(btn) {
+    const box = btn.previousElementSibling.previousElementSibling;
+    const text = box.innerText.replace(/🔵 오프닝|🎯 핵심 포인트|💰 차별화|✅ 클로징/g, '\n').trim();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✅ 복사 완료!';
+        setTimeout(() => { btn.innerHTML = '📋 스피치 복사'; }, 2000);
+      });
+    } else {
+      btn.textContent = '✅ 복사 완료!';
+      setTimeout(() => { btn.innerHTML = '📋 스피치 복사'; }, 2000);
+    }
+  }
+</script>
+</body>
+</html>
