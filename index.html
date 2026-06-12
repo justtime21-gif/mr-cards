@@ -222,10 +222,19 @@
   .speech-label { font-size: 10px; font-weight: 800; letter-spacing: 0.8px; color: var(--text-sub); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
   .speech-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  .speech-box { background: #f8fafc; border-radius: 12px; padding: 13px 14px; font-size: 13px; line-height: 1.85; color: var(--text); border-left: 3px solid var(--c, var(--osstem)); position: relative; }
+  .speech-box { background: #f8fafc; border-radius: 12px; padding: 12px; font-size: 13px; line-height: 1.75; color: var(--text); position: relative; }
   .speech-box .bracket { color: var(--text-sub); font-size: 11px; font-weight: 700; display: block; margin-bottom: 3px; margin-top: 10px; }
   .speech-box .bracket:first-child { margin-top: 0; }
   .speech-box em { font-style: normal; font-weight: 800; color: var(--c, var(--navy)); }
+  .speech-steps { display: grid; gap: 9px; }
+  .speech-step { position: relative; display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 11px 12px 11px 0; border-radius: 11px; background: #fff; border: 1px solid rgba(216,226,238,0.86); box-shadow: 0 5px 14px rgba(23,38,58,0.04); }
+  .speech-step::before { content: ''; position: absolute; left: 13px; top: 33px; bottom: -10px; width: 1px; background: color-mix(in srgb, var(--c, var(--osstem)) 28%, var(--border)); }
+  .speech-step:last-child::before { display: none; }
+  .speech-step-no { width: 26px; display: flex; justify-content: center; padding-top: 1px; color: var(--c, var(--osstem)); font-size: 11px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .speech-step-no::before { content: ''; position: absolute; left: 8px; top: 13px; width: 11px; height: 11px; border-radius: 50%; background: #fff; border: 2px solid var(--c, var(--osstem)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c, var(--osstem)) 10%, transparent); }
+  .speech-step-content { min-width: 0; }
+  .speech-step-label { margin-bottom: 3px; color: var(--c, var(--osstem)); font-size: 11px; font-weight: 900; letter-spacing: 0.2px; }
+  .speech-step-text { color: var(--text); word-break: keep-all; overflow-wrap: anywhere; }
 
   .spec-row { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
   .spec-item { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px; font-size: 11px; color: var(--text-sub); }
@@ -258,10 +267,22 @@
     box-shadow: none;
   }
 
-  .bottom-space { height: 40px; }
+  .app-footer { margin: 22px 0 30px; padding: 15px 12px 0; border-top: 1px solid var(--border); color: var(--text-sub); text-align: center; font-size: 11px; line-height: 1.7; font-weight: 700; }
+  .app-footer strong { display: block; color: var(--text); font-size: 12px; font-weight: 900; }
+  .app-footer a { color: var(--osstem); text-decoration: none; font-weight: 900; }
 
   /* ====== Q&A CARDS ====== */
   .qna-card { background: var(--card); border-radius: 14px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 8px 20px rgba(23,38,58,0.07); border: 1px solid var(--border); }
+  .qna-search { position: relative; margin: -2px 0 12px; }
+  .qna-search-input { width: 100%; height: 44px; padding: 0 82px 0 42px; border: 1.5px solid var(--border); border-radius: 12px; background: #fff; color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 700; outline: none; box-shadow: 0 8px 20px rgba(23,38,58,0.05); transition: border-color 0.2s, box-shadow 0.2s; }
+  .qna-search-input:focus { border-color: var(--osstem); box-shadow: 0 10px 24px rgba(223,96,14,0.12); }
+  .qna-search-input::placeholder { color: #9aa8b7; font-weight: 600; }
+  .qna-search-mark { position: absolute; left: 15px; top: 50%; width: 14px; height: 14px; border: 2px solid var(--text-sub); border-radius: 50%; transform: translateY(-55%); pointer-events: none; }
+  .qna-search-mark::after { content: ''; position: absolute; right: -5px; bottom: -4px; width: 7px; height: 2px; border-radius: 2px; background: var(--text-sub); transform: rotate(45deg); }
+  .qna-clear { position: absolute; right: 8px; top: 50%; min-width: 58px; height: 30px; border: none; border-radius: 8px; background: #eef2f7; color: var(--text-sub); font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 800; transform: translateY(-50%); cursor: pointer; display: none; }
+  .qna-clear.visible { display: block; }
+  .qna-empty { display: none; padding: 24px 16px; border: 1px dashed var(--border); border-radius: 14px; background: #fff; color: var(--text-sub); font-size: 13px; font-weight: 700; text-align: center; line-height: 1.6; }
+  .qna-empty.visible { display: block; }
   .qna-header { padding: 13px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
   .qna-badge { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
   .qna-q { flex: 1; font-size: 13.5px; font-weight: 700; color: var(--text); line-height: 1.4; }
@@ -1158,6 +1179,12 @@
       <div class="intro-text"><strong>원장님 자주 묻는 질문</strong><br>현장에서 바로 답할 수 있는 핵심 Q&A</div>
     </div>
 
+    <div class="qna-search">
+      <span class="qna-search-mark" aria-hidden="true"></span>
+      <input id="qnaSearch" class="qna-search-input" type="search" placeholder="질문, 제품명, 키워드 검색" autocomplete="off" oninput="searchQna(this.value)">
+      <button id="qnaClear" class="qna-clear" type="button" onclick="clearQnaSearch()">지우기</button>
+    </div>
+
     <!-- 카테고리 필터 -->
     <div class="speech-filter">
       <button class="filter-btn active" onclick="filterQna('all', this)">전체</button>
@@ -1369,9 +1396,16 @@
       </div>
     </div>
 
+    <div id="qnaEmpty" class="qna-empty">검색 결과가 없습니다.<br>다른 질문이나 제품명으로 다시 검색해보세요.</div>
+
   </div><!-- /sec-qna -->
 
-  <div class="bottom-space"></div>
+  <footer class="app-footer">
+    <strong>무단 배포 금지</strong>
+    본 자료는 오스템 MR팀 소유입니다.<br>
+    made by 성진욱<br>
+    문의 <a href="mailto:justtime21@osstem.com">justtime21@osstem.com</a>
+  </footer>
 </div><!-- /content -->
 
 <script>
@@ -1398,16 +1432,79 @@
     }
   }
 
+  function cleanSpeechLabel(text) {
+    if (text.includes('오프닝')) return '오프닝';
+    if (text.includes('핵심 포인트')) return '핵심 포인트';
+    if (text.includes('차별화')) return '차별화';
+    if (text.includes('클로징')) return '클로징';
+    return text.trim();
+  }
+
+  function tidyTextNode(node, position) {
+    if (node.nodeType !== Node.TEXT_NODE) return node;
+    const clone = node.cloneNode(true);
+    if (position === 'first') clone.textContent = clone.textContent.replace(/^\s+/, '');
+    if (position === 'last') clone.textContent = clone.textContent.replace(/\s+$/, '');
+    return clone;
+  }
+
+  function buildSpeechSteps() {
+    document.querySelectorAll('.speech-box').forEach(box => {
+      if (box.dataset.stepped === 'true') return;
+
+      const steps = [];
+      let currentStep = null;
+      Array.from(box.childNodes).forEach(node => {
+        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('bracket')) {
+          currentStep = { label: cleanSpeechLabel(node.textContent), nodes: [] };
+          steps.push(currentStep);
+          return;
+        }
+
+        if (currentStep) currentStep.nodes.push(node);
+      });
+
+      if (steps.length < 2) return;
+
+      const stepsEl = document.createElement('div');
+      stepsEl.className = 'speech-steps';
+
+      steps.forEach((step, index) => {
+        const stepEl = document.createElement('div');
+        stepEl.className = 'speech-step';
+
+        const noEl = document.createElement('div');
+        noEl.className = 'speech-step-no';
+        noEl.textContent = String(index + 1).padStart(2, '0');
+
+        const contentEl = document.createElement('div');
+        contentEl.className = 'speech-step-content';
+
+        const labelEl = document.createElement('div');
+        labelEl.className = 'speech-step-label';
+        labelEl.textContent = step.label;
+
+        const textEl = document.createElement('div');
+        textEl.className = 'speech-step-text';
+        step.nodes.forEach((node, nodeIndex) => {
+          const position = nodeIndex === 0 ? 'first' : nodeIndex === step.nodes.length - 1 ? 'last' : '';
+          textEl.appendChild(tidyTextNode(node, position));
+        });
+
+        contentEl.append(labelEl, textEl);
+        stepEl.append(noEl, contentEl);
+        stepsEl.appendChild(stepEl);
+      });
+
+      box.replaceChildren(stepsEl);
+      box.dataset.stepped = 'true';
+    });
+  }
+
   function polishIcons() {
     document.querySelectorAll('.tab-icon, .intro-icon, .speech-icon, .conclusion-box .icon').forEach(replaceIconElement);
     document.querySelectorAll('.warn-box > span:first-child').forEach(replaceIconElement);
-    document.querySelectorAll('.speech-box .bracket').forEach(label => {
-      const text = label.textContent;
-      if (text.includes('오프닝')) label.textContent = '오프닝';
-      if (text.includes('핵심 포인트')) label.textContent = '핵심 포인트';
-      if (text.includes('차별화')) label.textContent = '차별화';
-      if (text.includes('클로징')) label.textContent = '클로징';
-    });
+    buildSpeechSteps();
     document.querySelectorAll('.resource-btn.download:not(.pending)').forEach(btn => {
       if (!btn.dataset.iconAdded) {
         btn.insertAdjacentHTML('afterbegin', iconMarkup('download'));
@@ -1459,12 +1556,50 @@
     });
   }
 
+  let activeQnaCat = 'all';
+
+  function normalizeSearchText(text) {
+    return text.toLowerCase().replace(/\s+/g, '');
+  }
+
+  function applyQnaFilters() {
+    const input = document.getElementById('qnaSearch');
+    const clearBtn = document.getElementById('qnaClear');
+    const empty = document.getElementById('qnaEmpty');
+    const query = normalizeSearchText(input?.value || '');
+    let visibleCount = 0;
+
+    document.querySelectorAll('.qna-card').forEach(card => {
+      const matchesCat = activeQnaCat === 'all' || card.dataset.cat === activeQnaCat;
+      const searchableText = normalizeSearchText(card.textContent);
+      const matchesQuery = !query || searchableText.includes(query);
+      const isVisible = matchesCat && matchesQuery;
+      card.style.display = isVisible ? 'block' : 'none';
+      if (isVisible) visibleCount += 1;
+    });
+
+    clearBtn?.classList.toggle('visible', Boolean(query));
+    empty?.classList.toggle('visible', visibleCount === 0);
+  }
+
   function filterQna(cat, btn) {
+    activeQnaCat = cat;
     btn.closest('#sec-qna').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.querySelectorAll('.qna-card').forEach(card => {
-      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
-    });
+    applyQnaFilters();
+  }
+
+  function searchQna() {
+    applyQnaFilters();
+  }
+
+  function clearQnaSearch() {
+    const input = document.getElementById('qnaSearch');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    applyQnaFilters();
   }
 
   function toggleQna(header) {
