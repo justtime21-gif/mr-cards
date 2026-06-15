@@ -150,6 +150,46 @@
   .compare-table .highlight { font-weight: 800; color: var(--blue); }
   .compare-table .row-head { text-align: left; color: var(--text-sub); font-size: 11px; }
 
+  /* SETTING GUIDE */
+  .setting { --c: var(--navy-mid); --c-bg: #eaf4ff; --c-text: var(--navy-mid); }
+  .setting-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+  .setting-table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 12px; }
+  .setting-table th { background: var(--navy); color: #fff; padding: 8px 9px; text-align: center; font-weight: 800; font-size: 11px; white-space: nowrap; }
+  .setting-table td { padding: 8px 9px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); text-align: center; color: var(--text); font-weight: 700; line-height: 1.45; }
+  .setting-table tr:last-child td { border-bottom: none; }
+  .setting-table td:last-child, .setting-table th:last-child { border-right: none; }
+  .setting-table tr:nth-child(even) td { background: #f8fafc; }
+  .setting-table .setting-kind { color: var(--text-sub); font-size: 11px; font-weight: 900; white-space: nowrap; }
+  .setting-table .setting-product { color: var(--text); font-weight: 900; white-space: nowrap; }
+  .setting-table .setting-dose { min-width: 120px; color: var(--osstem-deep); font-weight: 900; white-space: nowrap; }
+  .setting-note { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #f8fafc; color: var(--text-sub); font-size: 11.5px; line-height: 1.65; font-weight: 700; }
+
+  /* ====== GLOBAL SEARCH ====== */
+  .header-search-panel { padding: 9px 4px 12px; }
+  .global-search { position: relative; }
+  .global-search-input { width: 100%; height: 48px; padding: 0 86px 0 43px; border: 1.5px solid var(--border); border-radius: 13px; background: #fff; color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 800; outline: none; box-shadow: 0 10px 24px rgba(23,38,58,0.07); transition: border-color 0.2s, box-shadow 0.2s; }
+  .global-search-input:focus { border-color: var(--osstem); box-shadow: 0 12px 28px rgba(223,96,14,0.14); }
+  .global-search-input::placeholder { color: #9aa8b7; font-weight: 650; }
+  .global-search-mark { position: absolute; left: 16px; top: 50%; width: 15px; height: 15px; border: 2px solid var(--text-sub); border-radius: 50%; transform: translateY(-56%); pointer-events: none; }
+  .global-search-mark::after { content: ''; position: absolute; right: -5px; bottom: -4px; width: 7px; height: 2px; border-radius: 2px; background: var(--text-sub); transform: rotate(45deg); }
+  .global-search-clear { position: absolute; right: 8px; top: 50%; min-width: 60px; height: 32px; border: none; border-radius: 9px; background: #eef2f7; color: var(--text-sub); font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 900; transform: translateY(-50%); cursor: pointer; display: none; }
+  .global-search-clear.visible { display: block; }
+  .search-status { margin-top: 9px; color: var(--text-sub); font-size: 12px; font-weight: 800; line-height: 1.5; }
+  .search-group { margin-top: 14px; }
+  .search-group-title { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: var(--text); font-size: 13px; font-weight: 900; }
+  .search-group-count { min-width: 22px; padding: 2px 8px; border-radius: 999px; background: var(--osstem-soft); color: var(--osstem-deep); font-size: 11px; text-align: center; }
+  .search-result-card { width: 100%; margin-bottom: 8px; padding: 12px 13px; border: 1px solid var(--border); border-left: 4px solid var(--c, var(--osstem)); border-radius: 12px; background: #fff; text-align: left; font-family: 'Noto Sans KR', sans-serif; box-shadow: 0 8px 20px rgba(23,38,58,0.06); cursor: pointer; }
+  .search-result-meta { margin-bottom: 3px; color: var(--c, var(--osstem)); font-size: 10px; font-weight: 900; letter-spacing: 0.2px; }
+  .search-result-title { color: var(--text); font-size: 14px; font-weight: 900; line-height: 1.4; }
+  .search-result-snippet { margin-top: 5px; color: var(--text-sub); font-size: 12px; font-weight: 650; line-height: 1.55; word-break: keep-all; overflow-wrap: anywhere; }
+  .search-result-card:active { transform: scale(0.99); }
+  .search-empty { margin-top: 13px; padding: 24px 16px; border: 1px dashed var(--border); border-radius: 14px; background: #fff; color: var(--text-sub); font-size: 13px; font-weight: 800; text-align: center; line-height: 1.7; }
+  .search-focus { animation: searchPulse 1.2s ease; }
+  @keyframes searchPulse {
+    0%, 100% { box-shadow: 0 8px 22px rgba(23,38,58,0.07); }
+    35% { box-shadow: 0 0 0 4px rgba(223,96,14,0.2), 0 10px 26px rgba(223,96,14,0.18); }
+  }
+
   /* CONCLUSION BOX */
   .conclusion-box { border-radius: 10px; padding: 10px 12px; margin-top: 12px; font-size: 12.5px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
   .conclusion-box .icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; display: inline-flex; align-items: center; justify-content: center; }
@@ -302,6 +342,10 @@
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="icon-search" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="m16 16 5 5"></path>
+  </symbol>
   <symbol id="icon-pill" viewBox="0 0 24 24">
     <path d="m10.5 20.5 10-10a5 5 0 0 0-7-7l-10 10a5 5 0 0 0 7 7Z"></path>
     <path d="m8.5 8.5 7 7"></path>
@@ -361,7 +405,10 @@
   <div class="header-title">경구제 전환 공략 카드</div>
   <div class="header-sub">CHX 단일처방 거래처 → 자사 경구제 전환</div>
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('ab', this)">
+    <button class="tab active" onclick="switchTab('speech', this)">
+      <span class="tab-icon">🎤</span>스피치
+    </button>
+    <button class="tab" onclick="switchTab('ab', this)">
       <span class="tab-icon">💊</span>항생제
     </button>
     <button class="tab" onclick="switchTab('pain', this)">
@@ -370,19 +417,36 @@
     <button class="tab" onclick="switchTab('gi', this)">
       <span class="tab-icon">🌿</span>소화기제
     </button>
-    <button class="tab" onclick="switchTab('speech', this)">
-      <span class="tab-icon">🎤</span>스피치
-    </button>
     <button class="tab" onclick="switchTab('qna', this)">
       <span class="tab-icon">❓</span>Q&amp;A
     </button>
+    <button class="tab" onclick="switchTab('setting', this)">
+      <span class="tab-icon">🧾</span>약제세팅
+    </button>
+  </div>
+  <div class="header-search-panel">
+    <div class="global-search">
+      <span class="global-search-mark" aria-hidden="true"></span>
+      <input id="globalSearchInput" class="global-search-input" type="search" placeholder="통합 검색: 아목시스, 세파클리, CHX" autocomplete="off" oninput="searchAll(this.value)">
+      <button id="globalSearchClear" class="global-search-clear" type="button" onclick="clearGlobalSearch()">지우기</button>
+    </div>
   </div>
 </div>
 
 <div class="content">
 
+  <!-- ========== 통합 검색 ========== -->
+  <div class="section" id="sec-search">
+    <div class="intro-banner">
+      <div class="intro-icon">🔎</div>
+      <div class="intro-text"><strong>통합 검색</strong><br>제품명·성분·상황 키워드로 스피치, 전환 전략, Q&amp;A, 약제세팅을 한 번에 확인</div>
+    </div>
+    <div id="globalSearchStatus" class="search-status">제품명이나 키워드를 검색하세요.</div>
+    <div id="globalSearchResults"></div>
+  </div>
+
   <!-- ========== 항생제 ========== -->
-  <div class="section active" id="sec-ab">
+  <div class="section" id="sec-ab">
     <div class="intro-banner">
       <div class="intro-icon">💊</div>
       <div class="intro-text"><strong>항생제 전환 전략</strong><br>타사 처방 패턴별 자사 세파클리·아목시클라·아목시스 전환 논리</div>
@@ -710,8 +774,258 @@
     </div>
   </div>
 
+  <!-- ========== 약제세팅 ========== -->
+  <div class="section" id="sec-setting">
+    <div class="intro-banner">
+      <div class="intro-icon">🧾</div>
+      <div class="intro-text"><strong>처방 버튼 약제세팅 가이드</strong><br>개원가 처방 버튼 추가 시 확인용. 원내 기준 및 최종 처방권자 확인 후 적용</div>
+    </div>
+
+    <div class="warn-box">
+      <span>⚠️</span>
+      <div>아래 내용은 처방 버튼 세팅 확인용이며, 실제 처방은 원내 기준과 의사 판단을 우선합니다. 에스오메프라졸은 QD(1일 1회) 처방 기준을 별도 확인하세요.</div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">기본 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">항생제</td><td class="setting-product">아목시스 캡슐(500mg)</td><td class="setting-dose">하루 3번 (3~5일)</td><td>아목시스 캡슐은 아목시클라 정으로 변경해도 무방함</td></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">나프록소 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">사랑니 등 발치 후 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">항생제</td><td class="setting-product">아목시클라 정(375mg)</td><td class="setting-dose">하루 3번 (3~5일)</td><td>아목시클라 정은 1차 처방 제제와 무관하게 처방 가능</td></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">록소리펜 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">Surgical 발치 및 임플란트 식립 등의 경우 5일 처방 권장 · 에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">감염증 및 통증 조절 시 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">항생제</td><td class="setting-product">세파클리 캡슐</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">나프록소 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td>심혈관계질환 위험군 및 노인환자 등에 대해 장기처방 가능</td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">Sinus Surgery 또는 상악동 염증 시 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">항생제</td><td class="setting-product">아목시클라 정(375mg)</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">록소리펜 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 정 / 모사프리 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">진해거담제</td><td class="setting-product">Ambroxol HCl(성분명)</td><td class="setting-dose">하루 3번 (3~5일)</td><td>Secretion 감소효과 및 Ventilation 효과 기대</td></tr>
+              <tr><td class="setting-kind">교감신경흥분제</td><td class="setting-product">Pseudoephedrin HCl(성분명)</td><td class="setting-dose">하루 3번 (3~5일)</td><td>코 막힘 완화제</td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">페니실린계 약물 알러지 시 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">항생제</td><td class="setting-product">루리드정</td><td class="setting-dose">하루 3번 (3~5일)</td><td>정균 효과의 마크로라이드계 약제로 변경</td></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">아세클로페낙</td><td class="setting-dose">하루 3번 (3~5일)</td><td>아세클로페낙으로 프로피온산 알러지 대응</td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">6</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">턱관절 장애 근육통/근긴장 완화 시 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">근이완제</td><td class="setting-product">Eperison HCl 50mg (판매제품 X)</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">록소리펜 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">7</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">Mild 통증 시 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">나프록소 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">8</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">Moderate and Severe 통증 시 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">록소리펜 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td>록소리펜은 나프록소보다 10~20배 높은 진통효과</td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">9</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">시술 전 예방적 항생제 처방</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">항생제</td><td class="setting-product">아목시스 캡슐(500mg)</td><td class="setting-dose">하루 3번 (3~5일)</td><td>시술 전 예방적 항생제 처방 버튼 세팅 확인용</td></tr>
+            </table>
+          </div>
+          <div class="setting-note">원내 기준에 따라 시술 전 복용 시점은 별도 확인</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card setting">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">10</div>
+        <div class="card-title-wrap">
+          <div class="card-from">처방 버튼 세팅</div>
+          <div class="card-title">Acute Pain</div>
+        </div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-inner">
+          <div class="setting-table-wrap">
+            <table class="setting-table">
+              <tr><th>구분</th><th>제품 조합</th><th>용법 및 용량</th><th>기대효과 및 기타사항</th></tr>
+              <tr><td class="setting-kind">진통소염제</td><td class="setting-product">아세클로페낙 정</td><td class="setting-dose">하루 3번 (3~5일)</td><td>아세클로페낙은 빠른 진통효과로 급성 통증에 효과적</td></tr>
+              <tr><td class="setting-kind">소화기용약</td><td class="setting-product">알마펜 / 모사프리 / 에스오메프라졸</td><td class="setting-dose">하루 3번 (3~5일)</td><td></td></tr>
+            </table>
+          </div>
+          <div class="setting-note">에스오메프라졸은 QD(1일 1회) 처방</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ========== 1분 스피치 ========== -->
-  <div class="section" id="sec-speech">
+  <div class="section active" id="sec-speech">
     <div class="intro-banner">
       <div class="intro-icon">🎤</div>
       <div class="intro-text"><strong>제품별 1분 핵심 스피치</strong><br>원장님 앞에서 바로 꺼낼 수 있는 핵심 멘트</div>
@@ -1410,9 +1724,11 @@
 
 <script>
   const ICON_MAP = {
+    '🔎': 'search',
     '💊': 'pill',
     '🔥': 'flame',
     '🌿': 'leaf',
+    '🧾': 'file',
     '🎤': 'mic',
     '❓': 'help',
     '🔷': 'shield',
@@ -1545,7 +1861,7 @@
   }
 
   function filterSpeech(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.closest('#sec-speech').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.querySelectorAll('.speech-card').forEach(card => {
       if (cat === 'all' || card.dataset.cat === cat) {
@@ -1560,6 +1876,237 @@
 
   function normalizeSearchText(text) {
     return text.toLowerCase().replace(/\s+/g, '');
+  }
+
+  const SEARCH_ALIASES = {
+    '아목시스': ['아목시실린', 'amoxicillin'],
+    '아목시실린': ['아목시스', 'amoxicillin'],
+    '아목시클라': ['오구멘틴', 'augmentin', '클라불란산', 'clavulanate'],
+    '세파클리': ['세파클러', 'cefaclor', '세팔로스포린'],
+    '록소리펜': ['록소프로펜', 'loxoprofen'],
+    '나프록소': ['나프록센', 'naproxen'],
+    '에스오메프라졸': ['esomeprazole', 'ppi'],
+    'chx': ['클로르헥시딘', 'chlorhexidine'],
+    '클로르헥시딘': ['chx', 'chlorhexidine']
+  };
+
+  let globalSearchIndex = [];
+
+  const SEARCH_GROUPS = [
+    { id: 'speech', label: '스피치' },
+    { id: 'strategy', label: '전환 전략' },
+    { id: 'qna', label: 'Q&A' },
+    { id: 'setting', label: '약제세팅' }
+  ];
+
+  function getTabButton(sectionId) {
+    return Array.from(document.querySelectorAll('.tab')).find(tab => tab.getAttribute('onclick')?.includes(`'${sectionId}'`));
+  }
+
+  function getSectionLabel(sectionId) {
+    if (sectionId === 'ab') return '항생제';
+    if (sectionId === 'pain') return '진통소염제';
+    if (sectionId === 'gi') return '소화기제';
+    if (sectionId === 'setting') return '약제세팅';
+    if (sectionId === 'speech') return '스피치';
+    if (sectionId === 'qna') return 'Q&A';
+    return '';
+  }
+
+  function getCardTitle(card) {
+    return card.querySelector('.speech-name, .card-title, .qna-q')?.textContent.trim() || '결과';
+  }
+
+  function getCardMeta(card, sectionId, group) {
+    if (group === 'speech') return card.querySelector('.speech-cat-label')?.textContent.trim() || '스피치';
+    if (group === 'qna') return card.querySelector('.qna-badge')?.textContent.trim() || 'Q&A';
+    if (group === 'setting') return card.querySelector('.card-from')?.textContent.trim() || '약제세팅';
+    return getSectionLabel(sectionId);
+  }
+
+  function makeSnippet(text, query) {
+    const cleanText = text.replace(/\s+/g, ' ').trim();
+    if (!query) return cleanText.slice(0, 90);
+    const lowerText = cleanText.toLowerCase();
+    const lowerQuery = query.toLowerCase();
+    const foundAt = lowerText.indexOf(lowerQuery);
+    const start = foundAt > 24 ? foundAt - 24 : 0;
+    const snippet = cleanText.slice(start, start + 96);
+    return `${start > 0 ? '...' : ''}${snippet}${start + 96 < cleanText.length ? '...' : ''}`;
+  }
+
+  function getSpeechSearchText(card) {
+    return [
+      card.querySelector('.speech-name')?.textContent || '',
+      card.querySelector('.speech-ingredient')?.textContent || '',
+      Array.from(card.querySelectorAll('.speech-tag')).map(tag => tag.textContent).join(' ')
+    ].join(' ');
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  function getExpandedQueries(query) {
+    const normalizedQuery = normalizeSearchText(query);
+    if (!normalizedQuery) return [];
+
+    const expanded = new Set([normalizedQuery]);
+    Object.entries(SEARCH_ALIASES).forEach(([keyword, aliases]) => {
+      const normalizedKeyword = normalizeSearchText(keyword);
+      const normalizedAliases = aliases.map(normalizeSearchText);
+      if (normalizedQuery === normalizedKeyword || normalizedAliases.includes(normalizedQuery)) {
+        expanded.add(normalizedKeyword);
+        normalizedAliases.forEach(alias => expanded.add(alias));
+      }
+    });
+
+    return Array.from(expanded);
+  }
+
+  function indexGlobalSearch() {
+    const targets = [
+      ...Array.from(document.querySelectorAll('#sec-speech .speech-card')).map(card => ({ card, sectionId: 'speech', group: 'speech' })),
+      ...Array.from(document.querySelectorAll('#sec-ab .scenario-card, #sec-pain .scenario-card, #sec-gi .scenario-card')).map(card => ({ card, sectionId: card.closest('.section').id.replace('sec-', ''), group: 'strategy' })),
+      ...Array.from(document.querySelectorAll('#sec-qna .qna-card')).map(card => ({ card, sectionId: 'qna', group: 'qna' })),
+      ...Array.from(document.querySelectorAll('#sec-setting .scenario-card')).map(card => ({ card, sectionId: 'setting', group: 'setting' }))
+    ];
+
+    globalSearchIndex = targets.map((item, index) => {
+      const id = `search-target-${index}`;
+      item.card.dataset.searchId = id;
+      return {
+        ...item,
+        id,
+        title: getCardTitle(item.card),
+        meta: getCardMeta(item.card, item.sectionId, item.group),
+        text: item.card.textContent,
+        normalizedText: normalizeSearchText(item.group === 'speech' ? getSpeechSearchText(item.card) : item.card.textContent)
+      };
+    });
+  }
+
+  function activateSearchTab() {
+    const section = document.getElementById('sec-search');
+    if (section?.classList.contains('active')) return;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    section?.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderGlobalSearch(query) {
+    const resultsEl = document.getElementById('globalSearchResults');
+    const statusEl = document.getElementById('globalSearchStatus');
+    const clearBtn = document.getElementById('globalSearchClear');
+    if (!resultsEl || !statusEl) return;
+
+    const expandedQueries = getExpandedQueries(query);
+    clearBtn?.classList.toggle('visible', Boolean(expandedQueries.length));
+    resultsEl.innerHTML = '';
+
+    if (!expandedQueries.length) {
+      statusEl.textContent = '제품명이나 키워드를 검색하세요.';
+      return;
+    }
+
+    const directQuery = normalizeSearchText(query);
+    const matches = globalSearchIndex.filter(item => {
+      const terms = item.group === 'speech' ? [directQuery] : expandedQueries;
+      return terms.some(term => item.normalizedText.includes(term));
+    });
+    statusEl.textContent = `${matches.length}개 결과`;
+
+    if (!matches.length) {
+      resultsEl.innerHTML = '<div class="search-empty">검색 결과가 없습니다.<br>다른 제품명이나 키워드로 다시 검색해보세요.</div>';
+      return;
+    }
+
+    SEARCH_GROUPS.forEach(group => {
+      const groupMatches = matches.filter(item => item.group === group.id);
+      if (!groupMatches.length) return;
+
+      const groupEl = document.createElement('div');
+      groupEl.className = 'search-group';
+      groupEl.innerHTML = `<div class="search-group-title">${group.label}<span class="search-group-count">${groupMatches.length}</span></div>`;
+
+      groupMatches.forEach(item => {
+        const cardEl = document.createElement('button');
+        cardEl.type = 'button';
+        cardEl.className = 'search-result-card';
+        cardEl.style.setProperty('--c', getComputedStyle(item.card).getPropertyValue('--c') || 'var(--osstem)');
+        cardEl.dataset.targetId = item.id;
+        cardEl.innerHTML = `
+          <div class="search-result-meta">${escapeHtml(item.meta)}</div>
+          <div class="search-result-title">${escapeHtml(item.title)}</div>
+          <div class="search-result-snippet">${escapeHtml(makeSnippet(item.text, query))}</div>
+        `;
+        cardEl.addEventListener('click', () => openSearchResult(item.id));
+        groupEl.appendChild(cardEl);
+      });
+
+      resultsEl.appendChild(groupEl);
+    });
+  }
+
+  function searchAll(value) {
+    activateSearchTab();
+    renderGlobalSearch(value);
+  }
+
+  function clearGlobalSearch() {
+    const input = document.getElementById('globalSearchInput');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+    renderGlobalSearch('');
+  }
+
+  function resetSectionFilters(sectionId) {
+    if (sectionId === 'speech') {
+      const section = document.getElementById('sec-speech');
+      const allBtn = section?.querySelector('.filter-btn');
+      if (allBtn) filterSpeech('all', allBtn);
+    }
+    if (sectionId === 'qna') {
+      const section = document.getElementById('sec-qna');
+      const allBtn = section?.querySelector('.filter-btn');
+      if (allBtn) filterQna('all', allBtn);
+    }
+  }
+
+  function openSearchResult(targetId) {
+    const item = globalSearchIndex.find(result => result.id === targetId);
+    if (!item) return;
+
+    const tab = getTabButton(item.sectionId);
+    if (tab) switchTab(item.sectionId, tab);
+    resetSectionFilters(item.sectionId);
+    if (item.group === 'speech') {
+      document.querySelectorAll('#sec-speech .speech-card').forEach(card => {
+        card.style.display = card === item.card ? 'block' : 'none';
+      });
+    }
+    item.card.style.display = 'block';
+
+    const header = item.card.querySelector('.speech-header, .card-header, .qna-header');
+    const body = header?.nextElementSibling;
+    if (header && body && !body.classList.contains('open')) {
+      header.click();
+    }
+
+    setTimeout(() => {
+      item.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      item.card.classList.add('search-focus');
+      setTimeout(() => item.card.classList.remove('search-focus'), 1200);
+    }, 120);
   }
 
   function applyQnaFilters() {
@@ -1667,6 +2214,7 @@
 
   updateBrochureButtons();
   polishIcons();
+  indexGlobalSearch();
   window.openBrochure = openBrochure;
 </script>
 </body>
