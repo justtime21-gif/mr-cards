@@ -310,6 +310,8 @@
   .app-footer { margin: 22px 0 30px; padding: 15px 12px 0; border-top: 1px solid var(--border); color: var(--text-sub); text-align: center; font-size: 11px; line-height: 1.7; font-weight: 700; }
   .app-footer strong { display: block; color: var(--text); font-size: 12px; font-weight: 900; }
   .app-footer a { color: var(--osstem); text-decoration: none; font-weight: 900; }
+  .domain-share-btn { width: 100%; margin: 0 0 14px; padding: 12px 14px; border: none; border-radius: 12px; background: var(--navy); color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 22px rgba(21,52,91,0.18); }
+  .domain-share-btn:active { transform: scale(0.98); }
 
   /* ====== Q&A CARDS ====== */
   .qna-card { background: var(--card); border-radius: 14px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 8px 20px rgba(23,38,58,0.07); border: 1px solid var(--border); }
@@ -1715,6 +1717,7 @@
   </div><!-- /sec-qna -->
 
   <footer class="app-footer">
+    <button class="domain-share-btn" type="button" onclick="shareDomain()">도메인 공유</button>
     <strong>무단 배포 금지</strong>
     본 자료는 오스템 MR팀 소유입니다.<br>
     made by 성진욱<br>
@@ -2201,6 +2204,34 @@
     window.open(getDriveUrl(fileId), '_blank', 'noopener,noreferrer');
   }
 
+  async function shareDomain() {
+    if (window.location.protocol === 'file:') {
+      alert('배포된 도메인에서 열면 공유 링크를 복사할 수 있습니다.');
+      return;
+    }
+
+    const shareUrl = `${window.location.origin}${window.location.pathname}`;
+    const shareData = {
+      title: 'MR 거래처 공략 카드',
+      text: 'MR 거래처 공략 카드',
+      url: shareUrl
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+      await navigator.clipboard.writeText(shareUrl);
+      alert('도메인 주소를 복사했습니다.');
+    } catch (error) {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('도메인 주소를 복사했습니다.');
+      }
+    }
+  }
+
   function updateBrochureButtons() {
     document.querySelectorAll('[data-brochure]').forEach(btn => {
       const product = btn.dataset.brochure;
@@ -2216,6 +2247,7 @@
   polishIcons();
   indexGlobalSearch();
   window.openBrochure = openBrochure;
+  window.shareDomain = shareDomain;
 </script>
 </body>
 </html>
